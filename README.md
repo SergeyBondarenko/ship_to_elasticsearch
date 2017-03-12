@@ -30,6 +30,8 @@ Inputs:
 * syslog
 * redis
 * beats: filebeat, metricbeat, packetbeat, winlogbeat, heartbeat
+* database (jdbc)
+* ...
 
 Filters:
 * grok
