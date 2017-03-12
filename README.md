@@ -26,22 +26,31 @@ git clone https://github.com/SergeyBondarenko/ship_to_elasticsearch.git
 ![Basic Logstash Pipeline](https://github.com/SergeyBondarenko/ship_to_elasticsearch/blob/master/assets/img/basic_logstash_pipeline.png)
 
 Inputs:
-* File
-* Syslog
-* Redis
-* Beats
+* file
+* syslog
+* redis
+* beats: filebeat, metricbeat, packetbeat, winlogbeat, heartbeat
 
 Filters:
-* Grok
-* Mutate
-* Drop
-* Clone
-* Geoip
+* grok
+* mutate
+* drop
+* clone
+* geoip
 
 Outputs:
-* Elasticsearch
-* File
-* …
+* elasticsearch
+* file
+* graphite
+* statsd
+* ...
+
+Codecs:
+* json
+* sflow
+* netflow
+* nmap
+* ...
 
 ### Stashing Event
 
@@ -230,7 +239,6 @@ curl -XGET localhost:9200/database.2017.03.07.15/_count?pretty
 
 Check Logstash SQL last query run time: `cat ~/.logstash_jdbc_last_run`
 
-
 ### Setting up and Running Logstash
 Directory Layout
 * Bin
@@ -247,6 +255,13 @@ Configuration files
 * Systemd: `sudo systemctl start logstash.service`
 * Upstart: `sudo initctl start logstash`
 * SysV: `sudo /etc/init.d/logstash start`
+
+
+### Deploying and Scaling Logstash
+...
+
+### Performance Tuning.
+...
 
 ### Environment Variables.
 ```
