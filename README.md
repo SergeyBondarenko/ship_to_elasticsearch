@@ -23,7 +23,7 @@ git clone https://github.com/SergeyBondarenko/ship_to_elasticsearch.git
 
 ### How It Works.  
 
-![Basic Logstash Pipeline](https://github.com/SergeyBondarenko/ship_to_elasticsearch/assets/img/basic_logstash_pipeline.png)
+![Basic Logstash Pipeline](https://github.com/SergeyBondarenko/ship_to_elasticsearch/blob/master/assets/img/basic_logstash_pipeline.png)
 
 Inputs:
 * File
