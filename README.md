@@ -1,79 +1,79 @@
-<h1> Ship To Elasticsearch</h1>
+# Ship to Elasticsearch
 
 Exploring different ways to ship data for Elasticsearch.
 
-<h2>Data:</h2>
+## Data.
+
 [William Shakespeare, collection of plays](https://www.elastic.co/guide/en/kibana/3.0/snippets/shakespeare.json)
 
-<h2>Software:</h2>
-[Apache WEB Server](https://www.cyberciti.biz/faq/linux-install-and-start-apache-httpd/)
+## Software.
+* [Apache WEB Server](https://www.cyberciti.biz/faq/linux-install-and-start-apache-httpd/)
+* [Filebeat](https://www.elastic.co/downloads/beats/filebeat)
+* [Logstash](https://www.elastic.co/downloads/logstash)
+* [Elasticsearch](https://www.elastic.co/downloads/elasticsearch)
+* [PostgreSQL](https://www.cyberciti.biz/faq/linux-installing-postgresql-database-server/)
+* [PostgreSQL JDBC driver](https://jdbc.postgresql.org/)
 
-[Filebeat](https://www.elastic.co/downloads/beats/filebeat)
-
-[Logstash](https://www.elastic.co/downloads/logstash)
-
-[Elasticsearch](https://www.elastic.co/downloads/elasticsearch)
-
-[PostgreSQL](https://www.cyberciti.biz/faq/linux-installing-postgresql-database-server/)
-
-[PostgreSQL JDBC driver](https://jdbc.postgresql.org/)
-
-<h2>Configs:</h2>
-<code>
+## Configs.
+```
 git clone https://github.com/SergeyBondarenko/ship_to_elasticsearch.git
-</code>
+```
 
-<h2>Logstash 5.</h2>
+## Logstash 5.
 
-<h3>Getting Started with Logstash.</h3>
+### Stashing Event
 
-<h4>Stashing Your First Event.</h4>
-
-To test your Logstash installation, run the most basic Logstash pipeline:
-
-<code>
+```
 bin/logstash -e 'input { stdin { } } output { stdout {} }'
-</code>
+```
 
 After starting Logstash, wait until you see "Pipeline main started" and then enter hello world at the command prompt:
 
-<code>
+```
 hello world
-</code>
+```
 
-Output:
-<code>
-2013-11-21T01:22:14.405+0000 0.0.0.0 hello world
-</code>
+Output: `2013-11-21T01:22:14.405+0000 0.0.0.0 hello world`
 
-<h4>Parsing Logs With Logstash.</h4>
+### How It Works.  
+Inputs:
+* File
+* Syslog
+* Redis
+* Beats
 
-<h3>1. Configuring Filebeat.</h3>
+Filters:
+* Grok
+* Mutate
+* Drop
+* Clone
+* Geoip
+
+Outputs:
+* Elasticsearch
+* File
+* …
+
+### Parse Apache Logs.
+
+#### 1. Configure Filebeat.
 Before you create the Logstash pipeline, you’ll configure Filebeat to send log lines to Logstash.
 
-<p><b>filebeat/filebeat.yml</b></p>
-<pre>
-<code>
+> filebeat/filebeat.yml
+```
 filebeat.prospectors:
 - input_type: log
   paths:
     - /path/to/apache/file.log 
 output.logstash:
   hosts: ["localhost:5044"]
-</code>
-</pre>
+```
 
-Run Filebeat:
+Run Filebeat: `sudo ./filebeat -e -c filebeat.yml -d "publish"`
 
-<code>
-sudo ./filebeat -e -c filebeat.yml -d "publish"
-</code>
-
-<h3>2. Configuring Logstash for Filebeat.</h3>
-
-<p><b>logstash/config/beats.conf</b></p>
-<pre>
-<code>
+#### 2. Configure Logstash.
+> configs/logstash/beats.conf
+```
 input {
     beats {
         port => "5043"
@@ -82,181 +82,42 @@ input {
 output {
     stdout { codec => rubydebug }
 }
-</code>
-</pre>
+```
 
-Test config:
-<code>
-bin/logstash -f first-pipeline.conf --config.test_and_exit
-</code>
+Test config: `bin/logstash -f beats.conf --config.test_and_exit` 
 
-Run Logstash:
-<code>
-bin/logstash -f first-pipeline.conf --config.reload.automatic
-</code>
+Run Logstash: `bin/logstash -f beats.conf --config.reload.automatic` 
 
-Parsing Web Logs with the Grok Filter Plugin
-
-<p><b>logstash/config/beats.conf</b></p>
-<pre>
-<code>
-input {
-    beats {
-        port => "5044"
-    }
-}
+Parse Apache logs with grok plugin.
+```
+...
 filter {
     grok {
         match => { "message" => "%{COMBINEDAPACHELOG}"}
     }
 }
-output {
-    stdout { codec => rubydebug }
-}
-</code>
-</pre>
+...
+```
 
-<h3>3. Indexing Your Data into Elasticsearch.</h3>
+Index Data into Elasticseaerch.
 
-<p><b>logstash/config/beats.conf</b></p>
-<pre>
-<code>
+```
+...
 output {
     elasticsearch {
         hosts => [ "localhost:9200" ]
     }
 }
-</code>
-</pre>
+```
 
-Check data in Elasticsearch:
-<code>
-curl -XGET 'localhost:9200/logstash-$DATE/_search?pretty&q=response=200'
-</code>
-
-
-<h4>How Logstash Works.</h4>
-
-Inputs:
-<ul>
-<li>File
-</li>
-<li>Syslog
-</li>
-<li>Redis
-</li>
-<li>Beats
-</li>
-</ul>
-
-Filters:
-<ul>
-<li>Grok
-</li>
-<li>Mutate
-</li>
-<li>Drop
-</li>
-<li>Clone
-</li>
-<li>Geoip
-</li>
-</ul>
-
-Outputs:
-<ul>
-<li>Elasticsearch
-</li>
-<li>File
-</li>
-<li>…
-</li>
-</ul>
-
-<h4>Setting up and Running Logstash.</h4>
-
-Directory Layout
-<ul>
-<li>Bin
-</li>
-<li>Settings
-</li>
-<li>Logs
-</li>
-<li>Plugins
-</li>
-</ul>
-
-Configuration files
-<ul>
-<li>Logstash.yml
-</li>
-<li>Jvm.options
-</li>
-<li>Startup.options
-</li>
-</ul>
-
-<h4>Running Logstash as a Service.</h4>
-
-Systemd: 
-<code>
-sudo systemctl start logstash.service
-</code>
-Upstart: 
-<code>
-sudo initctl start logstash
-</code>
-SysV: 
-<code>
-sudo /etc/init.d/logstash start
-</code>
-
-
-<h4>Insert JSON Data From a File.</h4>
-
-Basic
-
-<p><b>config/logstash/json_file.conf</b></p>
-<pre>
-<code>
-input {
-  file {
-    path => ["/home/trex/Development/Shipping_Data_To_ES/shakespeare.json"]
-    start_position => "beginning"
-    sincedb_path => "/dev/null"
-  }
-}
-output {
-  stdout {
-    codec => json_lines
-  }
-  elasticsearch {
-    hosts => ["localhost:9200"]
-    index => "shakespeare" 
-  }   
-}
-</code>
-</pre>
-
-Parsing JSON message.
-
-<pre>
-<code>
+### Get JSON Data From a File
+```
 input {
   file {
     type => "shakespeare"
     path => ["/home/trex/Development/Shipping_Data_To_ES/shakespeare.json"]
     start_position => "beginning"
-    sincedb_path => "/home/trex/.logstash_sincedb_path"
-  }
-}
-filter {
-  # get JSON keys/values from message field and put them to _source
-  if [message] =~ /^{.*}$/ {
-    json {
-      source => message
-    }   
+    sincedb_path => "/dev/null"
   }
 }
 output {
@@ -268,27 +129,36 @@ output {
     index => "%{type}" 
   }   
 }
-</code>
-</pre>
+```
 
-Checking data:
-<code>
+Parse JSON message.
+```
+filter {
+  if [message] =~ /^{.*}$/ {
+    json {
+      source => message
+    }   
+  }
+}
+```
+
+Check data.
+```
 {"query": {"bool": {"must": [{"match": {"speaker": "hamlet"}}, {"match": {"text_entry": "lads"}}]}}}
-</code>
+```
 
-<h4>Insert Data From Database.</h4>
+### Get Data From Database.
 
-<h3>1. Configure Database.</h3>
-Access Database
-<code>
-sudo -u postgres psql postgres
-</code>
-Setting up Database
-<pre>
-<code>
+#### 1. Configure Database.
+Access Database: `sudo -u postgres psql postgres`
+Setting up Database:
+```
 create user logstash;
 alter user logstash password 'logstashpass';
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO logstash;
+```
+Create table:
+```
 create table contacts (
     uid serial,
     timestamp timestamp NOT NULL,
@@ -296,30 +166,21 @@ create table contacts (
     first_name VARCHAR(80) NULL,
     last_name VARCHAR(80) NULL
 );
-</code>
-</pre>
+```
 
-<h3>2. Insert Data into Database.</h3>
-<pre>
-<code>
+#### 2. Insert Data into Database.
+```
 INSERT INTO contacts(timestamp, email, first_name, last_name) VALUES(current_timestamp,  'jim@example.com', 'Jim', 'Smith');
 INSERT INTO contacts(timestamp, email, first_name, last_name) VALUES(current_timestamp, null, 'John', 'Smith');
 INSERT INTO contacts(timestamp, email, first_name, last_name) VALUES(current_timestamp, 'carol@example.com', 'Carol', 'Smith');
 INSERT INTO contacts(timestamp, email, first_name, last_name) VALUES(current_timestamp, 'sam@example.com', 'Sam', null);
 INSERT INTO contacts(timestamp, email, first_name, last_name) VALUES(current_timestamp, 'sbondarenko@example.com', 'Sergii', 'Bondarenko');
-</code>
-</pre>
+```
 
-Check DB data 
-<code>
-select * from "contacts";
-</code>
- 
-<h3>3. Configure Logstash.</h3>
+#### 3. Configure Logstash.
 
-<p><b>configs/logstash/postgresql.conf</b></p>
-<pre>
-<code>
+> configs/logstash/postgresql.conf
+```
 input {
   jdbc {
     # Postgres jdbc connection string to our database, mydb
@@ -348,45 +209,52 @@ output {
     index => "database.%{+yyyy.MM.dd.HH}"
   }
 }
-</code>
-</pre>
+```
 
-<h3>4. Index DB data into ES.</h3>
-<code>
-./bin/logstash -f logstash/config/postgresql.conf --config.reload.automatic
-</code>
+Run Logstash: 
+```
+./bin/logstash -f configs/logstash/postgresql.conf --config.reload.automatic
+```
 
 Check data:
-<pre>
-<code>
+```
 curl -XGET localhost:9200/database.2017.03.07.15/_search?pretty
 curl -XGET localhost:9200/database.2017.03.07.15/_count?pretty
-</code>
-</pre>
+```
 
-Check Logstash sql last run time:
-<code>
-cat ~/.logstash_jdbc_last_run
-</code>
+Check Logstash SQL last query run time: `cat ~/.logstash_jdbc_last_run`
 
-<h4>Environment Variables.</h4>
-<pre>
-<code>
+
+### Setting up and Running Logstash
+Directory Layout
+* Bin
+* Settings
+* Logs
+* Plugins
+
+Configuration files
+* Logstash.yml
+* Jvm.options
+* Startup.options
+
+#### Running Logstash as a Service
+* Systemd: `sudo systemctl start logstash.service`
+* Upstart: `sudo initctl start logstash`
+* SysV: `sudo /etc/init.d/logstash start`
+
+### Environment Variables.
+```
 input {
   beats {
     type => "filebeat"
     port => "${BEATS_PORT:5044}"
   }
 }
-</code>
-</pre>
+```
 
-<h4>Accessing Event Data and Fields.</h4>
-
-<h3>Conditionals.</h3>
-
-<pre>
-<code>
+### Accessing Fields Data.
+#### Conditionals.
+```
 if "Latitude-E5510" in [host] {
   mutate {
     add_field => {
@@ -416,28 +284,29 @@ if [beat][hostname] == "Latitude-E5510" and [clientip] == "127.0.0.1" and !("red
     }
   }
 }
-</code>
-</pre>
+```
 
-<h3>Grok plugin.</h3>
+#### Grok plugin.
 
-Define patterns in a file inside <b>configs/patterns</b>.
-<pre>
-<code>
+Define regexp patterns:
+> configs/patterns/apache
+```
 DEST_IPv4_ADDR \d+\.\d+\.\d+\.\d+
 DEST_PORT \d+
 SRC_IPv4_ADDR \d+\.\d+\.\d+\.\d+
-</code>
-</pre>
+```
 
-Parse message with patterns.
-<pre>
-<code>
+Parse message text with patterns:
+```
 filter {
   grok {
     patterns_dir => ["/home/trex/Development/ship_to_elasticsearch/configs/patterns"]
     match => {"message" => "%{DEST_IPv4_ADDR:dest_ipv4_addr}:%{DEST_PORT:dest_port} %{SRC_IPv4_ADDR:src_ipv4_addr}"}
   }
 }
-</code>
-</pre>
+```
+
+## Authors
+
+**Sergii Bondarenko**
+
