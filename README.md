@@ -59,7 +59,7 @@ Outputs:
 #### 1. Configure Filebeat.
 Before you create the Logstash pipeline, you’ll configure Filebeat to send log lines to Logstash.
 
-> filebeat/filebeat.yml
+_filebeat/filebeat.yml_
 ```
 filebeat.prospectors:
 - input_type: log
@@ -72,7 +72,7 @@ output.logstash:
 Run Filebeat: `sudo ./filebeat -e -c filebeat.yml -d "publish"`
 
 #### 2. Configure Logstash.
-> configs/logstash/beats.conf
+_configs/logstash/beats.conf_
 ```
 input {
     beats {
@@ -131,7 +131,7 @@ output {
 }
 ```
 
-Parse JSON message.
+Parse JSON message:
 ```
 filter {
   if [message] =~ /^{.*}$/ {
@@ -142,7 +142,7 @@ filter {
 }
 ```
 
-Check data.
+Check data in Elasticsearch:
 ```
 {"query": {"bool": {"must": [{"match": {"speaker": "hamlet"}}, {"match": {"text_entry": "lads"}}]}}}
 ```
@@ -150,7 +150,10 @@ Check data.
 ### Get Data From Database.
 
 #### 1. Configure Database.
-Access Database: `sudo -u postgres psql postgres`
+Access Database: 
+```
+sudo -u postgres psql postgres
+```
 Setting up Database:
 ```
 create user logstash;
@@ -179,7 +182,7 @@ INSERT INTO contacts(timestamp, email, first_name, last_name) VALUES(current_tim
 
 #### 3. Configure Logstash.
 
-> configs/logstash/postgresql.conf
+_configs/logstash/postgresql.conf_
 ```
 input {
   jdbc {
@@ -289,7 +292,7 @@ if [beat][hostname] == "Latitude-E5510" and [clientip] == "127.0.0.1" and !("red
 #### Grok plugin.
 
 Define regexp patterns:
-> configs/patterns/apache
+_configs/patterns/apache_
 ```
 DEST_IPv4_ADDR \d+\.\d+\.\d+\.\d+
 DEST_PORT \d+
