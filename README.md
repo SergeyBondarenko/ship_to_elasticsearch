@@ -1,17 +1,31 @@
 <h1> Ship To Elasticsearch</h1>
 
-Eploring different ways to ship data for Elasticsearch.
+Exploring different ways to ship data for Elasticsearch.
 
 <h2>Data:</h2>
 [William Shakespeare, collection of plays](https://www.elastic.co/guide/en/kibana/3.0/snippets/shakespeare.json)
 
 <h2>Software:</h2>
+<ul>
+<li>
 [Apache WEB Server](https://www.cyberciti.biz/faq/linux-install-and-start-apache-httpd/)
+</li>
+<li>
 [Filebeat](https://www.elastic.co/downloads/beats/filebeat)
+</li>
+<li>
 [Logstash](https://www.elastic.co/downloads/logstash)
+</li>
+<li>
 [Elasticsearch](https://www.elastic.co/downloads/elasticsearch)
+</li>
+<li>
 [PostgreSQL](https://www.cyberciti.biz/faq/linux-installing-postgresql-database-server/)
+</li>
+<li>
 [PostgreSQL JDBC driver](https://jdbc.postgresql.org/)
+</li>
+</ul>
 
 <h2>Configs:</h2>
 <code>
@@ -33,27 +47,32 @@ bin/logstash -e 'input { stdin { } } output { stdout {} }'
 </code>
 
 After starting Logstash, wait until you see "Pipeline main started" and then enter hello world at the command prompt:
+
 <code>
 hello world
 </code>
-Output
+
+Output:
 <code>
 2013-11-21T01:22:14.405+0000 0.0.0.0 hello world
 </code>
 
-Parsing Logs With Logstash.
-To get started, go here to download the sample data set used in this example. Unpack the file.
+<h4>Parsing Logs With Logstash.</h4>
 
-Configuring Filebeat
+<h3>1. Configuring Filebeat.</h3>
 Before you create the Logstash pipeline, you’ll configure Filebeat to send log lines to Logstash. To install Filebeat on your data source machine, download the appropriate package from the Filebeat product page.
 
-filebeat/filebeat.yml 
+<p><b>filebeat/filebeat.yml</b></p>
+<pre>
+<code>
 filebeat.prospectors:
 - input_type: log
   paths:
     - /path/to/apache/file.log 
 output.logstash:
   hosts: ["localhost:5044"]
+</code>
+</pre>
 
 Run:
 sudo ./filebeat -e -c filebeat.yml -d "publish"
