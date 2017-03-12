@@ -21,21 +21,10 @@ git clone https://github.com/SergeyBondarenko/ship_to_elasticsearch.git
 
 ## Logstash 5.
 
-### Stashing Event
-
-```
-bin/logstash -e 'input { stdin { } } output { stdout {} }'
-```
-
-After starting Logstash, wait until you see "Pipeline main started" and then enter hello world at the command prompt:
-
-```
-hello world
-```
-
-Output: `2013-11-21T01:22:14.405+0000 0.0.0.0 hello world`
-
 ### How It Works.  
+
+![Basic Logstash Pipeline](https://github.com/SergeyBondarenko/ship_to_elasticsearch/assets/img/basic_logstash_pipeline.png)
+
 Inputs:
 * File
 * Syslog
@@ -53,6 +42,20 @@ Outputs:
 * Elasticsearch
 * File
 * …
+
+### Stashing Event
+
+```
+bin/logstash -e 'input { stdin { } } output { stdout {} }'
+```
+
+After starting Logstash, wait until you see "Pipeline main started" and then enter hello world at the command prompt:
+
+```
+hello world
+```
+
+Output: `2013-11-21T01:22:14.405+0000 0.0.0.0 hello world`
 
 ### Parse Apache Logs.
 
