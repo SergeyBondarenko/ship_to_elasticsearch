@@ -223,7 +223,7 @@ output {
   stdout { codec => json_lines }
   elasticsearch {
     hosts => [ "localhost:9200" ]
-    index => "database.%{+yyyy.MM.dd.HH}"
+    index => "database.%{+yyyy.MM.dd}"
   }
 }
 ```
