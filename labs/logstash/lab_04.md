@@ -17,13 +17,7 @@ Save the file.
 
 Restart Filebeat: `sudo service filebeat restart`
 
-## 2. Start Logstash daemon manualy.
-SHUTDOWN LOGSTASH SERVICE AND DAEMONS IF THEY ARE RUNNING. 
-```
-sudo bash /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/trex_apache_logs.conf --config.test_and_exit --path.settings /etc/logstash/
-```
-
-## 3. Configure Logstash.
+## 2. Configure Logstash.
 
 A. Add basic configuration. Add this to the config and save the file.
 _configs/logstash/trex_apache_logs.conf_
@@ -39,6 +33,11 @@ output {
 ```
 Save the file.
 
+## 3. Start Logstash daemon manualy.
+SHUTDOWN LOGSTASH SERVICE AND DAEMONS IF THEY ARE RUNNING. 
+```
+sudo bash /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/trex_apache_logs.conf --config.test_and_exit --path.settings /etc/logstash/
+```
 Send HTTP GET request to the server 80 port and look at the Logstash daemon console output.
 
 B. Parse Apache logs with grok plugin. Add this to the config and save the file.

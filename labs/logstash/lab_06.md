@@ -1,17 +1,17 @@
 # Lab 06. Get Database data.
   
 ## 1. Configure Database.
-Access Database: 
+A. Access Database: 
 ```
 sudo -u postgres psql postgres
 ```
-Setting up Database:
+B. Setting up Database:
 ```
 create user logstash;
 alter user logstash password 'logstashpass';
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO logstash;
 ```
-Create table:
+C. Create table:
 ```
 create table contacts (
     uid serial,
@@ -63,6 +63,8 @@ output {
   }
 }
 ```
+
+SHUTDOWN LOGSTASH SERVICE AND DAEMONS IF THEY ARE RUNNING. 
 
 Run Logstash: 
 ```

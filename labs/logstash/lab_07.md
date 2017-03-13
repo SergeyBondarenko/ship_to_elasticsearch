@@ -1,6 +1,6 @@
 # Lab 07. Advanced formatting with conditionals.
 
-Configure Logstash.
+A. Configure Logstash.
 _/etc/logstash/conf.d/trex_apache_logs_advanced_filtering.conf_
 ```
 input {
@@ -56,12 +56,14 @@ output {
 ```
 Save file.
 
-Start Logstash:
+SHUTDOWN LOGSTASH SERVICE AND DAEMONS IF THEY ARE RUNNING. 
+
+B. Start Logstash:
 ```
 sudo bash /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/trex_apache_logs_advanced_filtering.conf --config.reload.automatic --path.settings /etc/logstash/
 ```
 
-Check ES data:
+C. Check ES data:
 ```
 curl -XGET localhost:9200/trex_apache_logs_advanced_filter-2017.03.13/_search?pretty
 ```

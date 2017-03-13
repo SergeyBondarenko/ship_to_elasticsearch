@@ -21,11 +21,12 @@ output {
 Save the file. 
 
 SHUTDOWN LOGSTASH SERVICE AND DAEMONS IF THEY ARE RUNNING. 
-Run new Logstash daemon:
+
+B. Run new Logstash daemon:
 ```
 sudo bash /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/trex_shakespeare.conf --config.test_and_exit --path.settings /etc/logstash/
 ```
-Cancel the daemon as soon as you see the import messages. Look at the imported documents, all plays dictionary content is a string value of the message key.
+Cancel the daemon as soon as you see the import messages. Look at the imported documents, a play phrase string is assigned as a value to message key.
 
 
 B. Add a filter to parse message and create new fields. Also add ES output.
@@ -52,4 +53,4 @@ Check data in Elasticsearch:
 curl -XGET localhost:9200/trex_shakespeare/_search?pretty -d '{"query": {"bool": {"must": [{"match": {"speaker": "hamlet"}}, {"match": {"text_entry": "lads"}}]}}}'
 ```
 
-Now, you should see new fields created after message key was parsed by json plugin.
+Now, you should see new fields created after message was parsed by json plugin.

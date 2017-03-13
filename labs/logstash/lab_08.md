@@ -1,12 +1,13 @@
 # Lab 08. Advanced filtering with grok and regex patterns.
 
-Define regexp patterns:
+A. Define regexp patterns:
 _configs/patterns/apache_
 ```
 SRC_IPv4_ADDR \d+\.\d+\.\d+\.\d+
 ```
 
-Parse message text with patterns:
+B. Parse messsage with custom patterns:
+_/etc/logstash/conf.d/trex_apache_logs_advanced_filtering.conf_
 ```
 filter {
   grok {
