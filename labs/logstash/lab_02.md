@@ -38,7 +38,7 @@ output {
 ```
 Save the file.
 
-B. Stop Logstash and check the config:
+C. Stop Logstash and check the config:
 ```
 sudo service logstash stop
 sudo bash /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/trex_hello_world.conf --config.test_and_exit --path.settings /etc/logstash/
@@ -49,12 +49,12 @@ Console output:
 Configuration OK
 ```
 
-C. Start Logstash daemon directly:
+D. Start Logstash daemon directly:
 ```
 sudo bash /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/trex_hello_world.conf --config.reload.automatic --path.settings /etc/logstash/
 ```
 
-D. Input some data for Logstash:
+E. Input some data for Logstash:
 ```
 echo 'Hello, Trex!' | nc localhost 10000
 ```
@@ -73,7 +73,7 @@ Logstash daemon console output:
 ```
 
 
-E. Check data in Elasticsearch:
+F. Check data in Elasticsearch:
 ```
 curl -XGET localhost:9200/trex_hello_world/_search?pretty
 ```
