@@ -16,8 +16,8 @@ output:
 
 Restart Filebeat: `sudo service filebeat restart`
 
-## 2. Start Logstash daemon manualy (IF IT IS NOT RUNNING).
-SHUTDOWN LOGSTASH SERVICE IF IT IS RUNNING. 
+## 2. Start Logstash daemon manualy.
+SHUTDOWN LOGSTASH SERVICE OR DAEMON IF IT IS RUNNING. 
 ```
 sudo bash /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/trex_apache_logs.conf --config.test_and_exit --path.settings /etc/logstash/
 ```
