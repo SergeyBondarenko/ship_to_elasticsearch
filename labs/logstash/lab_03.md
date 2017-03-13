@@ -1,6 +1,6 @@
 # Lab 03. Discover Logstash status.
 
-1. Node information:
+## Node information:
 ```
 $ curl -XGET localhost:9600/_node?pretty
 {
@@ -34,7 +34,7 @@ $ curl -XGET localhost:9600/_node?pretty
   }
 ```
 
-2. Deep statistics:
+## Deep statistics:
 ```
 $ curl -XGET localhost:9600/_node/stats?pretty
 {
