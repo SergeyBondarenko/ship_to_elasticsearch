@@ -36,6 +36,7 @@ output {
   }
 }
 ```
+Save the file.
 
 Stop Logstash and check the config:
 ```

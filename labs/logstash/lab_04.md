@@ -13,11 +13,12 @@ output:
   logstash:
     hosts: ["localhost:5044"]
 ```
+Save the file.
 
 Restart Filebeat: `sudo service filebeat restart`
 
 ## 2. Start Logstash daemon manualy.
-SHUTDOWN LOGSTASH SERVICE OR DAEMON IF IT IS RUNNING. 
+SHUTDOWN LOGSTASH SERVICE AND DAEMONS IF THEY ARE RUNNING. 
 ```
 sudo bash /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/trex_apache_logs.conf --config.test_and_exit --path.settings /etc/logstash/
 ```
@@ -36,6 +37,7 @@ output {
     stdout { codec => rubydebug }
 }
 ```
+Save the file.
 
 Send HTTP GET request to the server 80 port and look at the Logstash daemon console output.
 
@@ -49,6 +51,8 @@ filter {
 }
 ...
 ```
+Save the file.
+
 Look at the Logstash console output the message string should be parsed and new fields should be created.
 
 C. Add geographic information to filter. Add this to the config and save the file.
@@ -60,8 +64,9 @@ geoip {
     add_field => [ "[geoip][coordinates]", "%{[geoip][latitude]}"  ]
 }
 ```
-Look at the Logstash console and see the geo information.
+Save the file.
 
+Look at the Logstash console and see the geo information.
 
 D. Index Data into Elasticsearch. Add this to the config and save the file.
 
@@ -74,5 +79,6 @@ output {
     }
 }
 ```
+Save the file.
 
 Check ES data: `curl -XGET localhost:9200/trex_apache_logs-2017.03.13/_search?pretty`

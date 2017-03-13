@@ -18,9 +18,10 @@ output {
   }
 }
 ```
-Save the config file and look at the Logstash daemon console.
-SHUTDOWN LOGSTASH SERVICE OR DAEMON IF IT IS RUNNING. 
+Save the file. 
+Look at the Logstash daemon console.
 
+SHUTDOWN LOGSTASH SERVICE AND DAEMONS IF IT THEY ARE RUNNING. 
 Run new Logstash daemon:
 ```
 sudo bash /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/trex_shakespeare.conf --config.test_and_exit --path.settings /etc/logstash/
@@ -44,6 +45,7 @@ output {
   }   
 }   
 ```
+Save the file.
 
 Check data in Elasticsearch:
 
