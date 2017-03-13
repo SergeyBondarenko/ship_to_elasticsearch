@@ -9,6 +9,18 @@ Install:
 sudo yum install postgresql-server postgresql-contrib
 ```
 
+Create DB cluster:
+```
+sudo postgresql-setup initdb
+```
+
+Allow password authentication:
+_/var/lib/pgsql/data/pg_hba.conf_
+```
+host    all             all             127.0.0.1/32            md5
+host    all             all             ::1/128                 md5
+```
+
 Start and enable:
 ```
 sudo systemctl start postgresql
@@ -26,7 +38,6 @@ sudo /usr/sbin/apachectl start
 Configure to run automatically:
 ```
 sudo /sbin/chkconfig httpd on
-sudo /sbin/chkconfig --list httpd
 ```
 
 ## Java 8
@@ -86,9 +97,9 @@ sudo systemctl enable elasticsearch
 Edit Yum repo file for Logstash:
 _/etc/yum.repos.d/logstash.repo_
 ```
-[logstash-2.2]
-name=logstash repository for 2.2 packages
-baseurl=http://packages.elasticsearch.org/logstash/2.2/centos
+[logstash-5.0]
+name=logstash repository for 5.0 packages
+baseurl=http://packages.elasticsearch.org/logstash/5.0/centos
 gpgcheck=1
 gpgkey=http://packages.elasticsearch.org/GPG-KEY-elasticsearch
 enabled=1
@@ -97,6 +108,13 @@ enabled=1
 Install:
 ```
 sudo yum -y install logstash
+```
+
+Start and configure to start automatically:
+```
+sudo systemctl start elasticsearch
+sudo systemctl enable elasticsearch
+
 ```
 
 ## Filebeat
