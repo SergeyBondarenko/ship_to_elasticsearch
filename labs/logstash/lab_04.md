@@ -24,7 +24,7 @@ sudo bash /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/trex_apache_l
 
 ## 3. Configure Logstash.
 
-A. Add basic configuration:
+A. Add basic configuration. Add this to the config and save the file.
 _configs/logstash/trex_apache_logs.conf_
 ```
 input {
@@ -39,7 +39,7 @@ output {
 
 Send HTTP GET request to the server 80 port and look at the Logstash daemon console output.
 
-B. Parse Apache logs with grok plugin.
+B. Parse Apache logs with grok plugin. Add this to the config and save the file.
 ```
 ...
 filter {
@@ -51,7 +51,7 @@ filter {
 ```
 Look at the Logstash console output the message string should be parsed and new fields should be created.
 
-C. Add geographic information to filter.
+C. Add geographic information to filter. Add this to the config and save the file.
 ```
 geoip {
     source => "clientip"
@@ -63,7 +63,7 @@ geoip {
 Look at the Logstash console and see the geo information.
 
 
-D. Index Data into Elasticsearch.
+D. Index Data into Elasticsearch. Add this to the config and save the file.
 
 ```
 ...
