@@ -19,7 +19,10 @@ Exploring different ways to ship data for Elasticsearch.
 git clone https://github.com/SergeyBondarenko/ship_to_elasticsearch.git
 ```
 
-## Logstash 5.
+## Eastic Stack.
+![Elastic Stack](https://github.com/SergeyBondarenko/ship_to_elasticsearch/blob/master/assets/img/elastic_stack.png)
+
+## Logstash.
 
 ### How It Works.  
 
