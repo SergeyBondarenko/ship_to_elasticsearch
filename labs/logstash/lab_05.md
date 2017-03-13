@@ -20,7 +20,7 @@ output {
 ```
 Save the file. 
 
-SHUTDOWN LOGSTASH SERVICE AND DAEMONS IF IT THEY ARE RUNNING. 
+SHUTDOWN LOGSTASH SERVICE AND DAEMONS IF THEY ARE RUNNING. 
 Run new Logstash daemon:
 ```
 sudo bash /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/trex_shakespeare.conf --config.test_and_exit --path.settings /etc/logstash/
