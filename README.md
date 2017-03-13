@@ -24,6 +24,8 @@ git clone https://github.com/SergeyBondarenko/ship_to_elasticsearch.git
 
 ## Logstash.
 
+[Logstash Tutorial](https://www.elastic.co/guide/en/logstash/current/getting-started-with-logstash.html)
+
 ### How It Works.  
 
 ![Basic Logstash Pipeline](https://github.com/SergeyBondarenko/ship_to_elasticsearch/blob/master/assets/img/basic_logstash_pipeline.png)
