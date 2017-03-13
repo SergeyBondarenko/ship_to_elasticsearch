@@ -19,14 +19,13 @@ output {
 }
 ```
 Save the file. 
-Look at the Logstash daemon console.
 
 SHUTDOWN LOGSTASH SERVICE AND DAEMONS IF IT THEY ARE RUNNING. 
 Run new Logstash daemon:
 ```
 sudo bash /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/trex_shakespeare.conf --config.test_and_exit --path.settings /etc/logstash/
 ```
-Cancel the daemon as soon as you see the import messages. Look at the imported documents, all plays dictionary content is a string value of messsage key.
+Cancel the daemon as soon as you see the import messages. Look at the imported documents, all plays dictionary content is a string value of the message key.
 
 
 B. Add a filter to parse message and create new fields. Also add ES output.
